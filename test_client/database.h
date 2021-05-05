@@ -44,7 +44,9 @@ private:
     void closeDataBase();       // Закрытие базы данных
 
 public slots:
-    QVector<animal> getAnimals();
+//    QSqlQuery* getRows();
+    animal* getAnimals();
+    int getSize();
 signals:
 
 };

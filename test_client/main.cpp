@@ -4,6 +4,9 @@
 
 #include "database.h"
 #include "animal.h"
+#include "animals_list.h"
+
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -14,7 +17,12 @@ int main(int argc, char *argv[])
 
     database database;
     database.connectToDataBase();
-    database.getAnimals();
+
+    animals_list animals;
+    animals.set_list(database.getAnimals());
+    animals.set_n(database.getSize());
+
+
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("database", &database);
     const QUrl url(QStringLiteral("qrc:/main.qml"));

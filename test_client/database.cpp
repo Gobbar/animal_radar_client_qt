@@ -47,16 +47,36 @@ void database::closeDataBase()
     db.close();
 }
 
-QVector<animal> database::getAnimals(){
-    QVector<animal> animals;
+//QSqlQuery* database::getRows(){
+
+//    QSqlQuery query("select * from "+QString(TA)+";");
+//    while (query.next()){
+//        qDebug()<<query.value(0).toInt();
+//        qDebug()<<query.result();
+//    }
+
+//    return &query;
+
+//}
+int database::getSize(){
+    QSqlQuery ind("select count(*) from "+QString(TA)+";");
+
+    ind.next();
+    return ind.value(0).toInt();
+}
+animal* database::getAnimals(){
+
     QSqlQuery query("select * from "+QString(TA)+";");
 
+
+    animal* a=new animal[getSize()];
+
+    int i=0;
     while (query.next()){
-        animal A(query.value(0).toInt(), query.value(1).toDouble(), query.value(2).toDouble(), query.value(3).toInt(), query.value(4).toBool());
-        qDebug()<<A.get_latitude();
+           animal A(query.value(0).toInt(), query.value(1).toDouble(), query.value(2).toDouble(), query.value(3).toInt(), query.value(4).toBool());
+           a[i]=A;
+           qDebug()<<A.get_latitude();
+           ++i;
     }
-//    for (QVector<animal>::Iterator it = animals.begin(); it!=animals.end();++it){
-//        qDebug()<<it->get_id()<<" "<<it->get_time();
-//    }
-    return animals;
+    return a;
 }

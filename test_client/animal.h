@@ -23,6 +23,13 @@ public:
         time = _time;
         check=_check;
     }
+    void operator = (animal &A){
+        id=A.get_id();
+        longitude=A.get_longitude();
+        latitude=A.get_latitude();
+        time = A.get_time();
+        check=A.on_server();
+    }
 
 public slots:
     int get_id(){return id;}
