@@ -8,6 +8,12 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
+    Button{
+        onClicked: {
+        a.set_time()
+        database.setAnimal(a.get_longitude(), a.get_latitude(), a.get_time())
 
+        }
+    }
 
 }

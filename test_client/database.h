@@ -42,11 +42,14 @@ private:
     bool openDataBase();        // Открытие базы данных
     bool restoreDataBase();     // Восстановление базы данных
     void closeDataBase();       // Закрытие базы данных
+    bool createTable();
 
 public slots:
 //    QSqlQuery* getRows();
-    animal* getAnimals();
+    animal* getAnimals(QString str);
     int getSize();
+    bool setAnimal(animal &a);
+    bool setAnimal(double _longitude, double _latitude, int _time, bool _check=0);
 signals:
 
 };

@@ -2,6 +2,7 @@
 #define ANIMAL_H
 
 #include <QObject>
+#include <QDateTime>
 
 class animal : public QObject
 {
@@ -44,10 +45,10 @@ public slots:
     void set_time(int _time){time = _time;}
     void set_check(int _check){check = _check;}
 
-
-
-
-
+    void set_time(){
+        time = QDateTime::currentSecsSinceEpoch();
+        qDebug()<<time;
+    }
 };
 
 #endif // ANIMAL_H

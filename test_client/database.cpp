@@ -1,4 +1,5 @@
 #include "database.h"
+#include <QStandardPaths>
 
 
 database::database(QObject *parent) : QObject(parent)
@@ -9,16 +10,23 @@ database::database(QObject *parent) : QObject(parent)
 database::~database(){
 
 }
-
-void database::connectToDataBase()
-{
-
-
-
+void database::connectToDataBase(){
     if(!QFile(DATABASE_NAME).exists()){
-        QFile::copy(":/" DATABASE_NAME , DATABASE_NAME);
-    }
-    this->openDataBase();
+            QFile::copy(":/" DATABASE_NAME , DATABASE_NAME);
+            QFile::setPermissions(DATABASE_NAME, QFile::WriteOwner | QFile::ReadOwner);
+        }
+        this->openDataBase();
+}
+
+bool database::restoreDataBase(){
+    if(this->openDataBase()){
+            // Производим восстановление базы данных
+            return (this->createTable()) ? true : false;
+        } else {
+            qDebug() << "Не удалось восстановить базу данных";
+            return false;
+        }
+        return false;
 }
 
 
@@ -47,6 +55,8 @@ void database::closeDataBase()
     db.close();
 }
 
+
+
 //QSqlQuery* database::getRows(){
 
 //    QSqlQuery query("select * from "+QString(TA)+";");
@@ -64,9 +74,9 @@ int database::getSize(){
     ind.next();
     return ind.value(0).toInt();
 }
-animal* database::getAnimals(){
+animal* database::getAnimals(QString str){
 
-    QSqlQuery query("select * from "+QString(TA)+";");
+    QSqlQuery query(str);
 
 
     animal* a=new animal[getSize()];
@@ -80,3 +90,72 @@ animal* database::getAnimals(){
     }
     return a;
 }
+
+bool database::setAnimal(animal &a){
+    QSqlQuery query;
+    query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (:long, :lati, :time, :check);");
+    query.bindValue(":long", QString::number(a.get_longitude(),'f', 3));
+    query.bindValue(":lati", QString::number(a.get_latitude(),'f', 3));
+    query.bindValue(":time", QString::number(a.get_time()));
+    query.bindValue(":check", QString::number(a.on_server()));
+    //query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (3,3,3,0)");
+    if(!query.exec()){
+            qDebug() << "error insert into " << TA;
+            qDebug() << query.lastError().text();
+            return false;
+        } else {
+            qDebug()<<a.get_latitude();
+            return true;
+        }
+    return false;
+}
+
+bool database::setAnimal(double _longitude, double _latitude, int _time, bool _check){
+    QSqlQuery query;
+    query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (:long, :lati, :time, :check);");
+    query.bindValue(":long", QString::number(_longitude,'f', 3));
+    query.bindValue(":lati", QString::number(_latitude,'f', 3));
+    query.bindValue(":time", QString::number(_time));
+    query.bindValue(":check", QString::number(_check));
+    //query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (3,3,3,0)");
+    if(!query.exec()){
+            qDebug() << "error insert into " << TA;
+            qDebug() << query.lastError().text();
+            return false;
+        } else {
+
+            return true;
+        }
+    return false;
+}
+
+//если с бд опять что-то случится
+bool database::createTable(){
+    QSqlQuery query;
+    if(!query.exec("CREATE TABLE " TA " ("
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        TA_longitude "double not null, "
+                        TA_latitude "double not null, "
+                        TA_time "integer not null, "
+                        TA_check "integer not null)")){
+        qDebug() << "DataBase: error of create " << TA;
+        qDebug() << query.lastError().text();
+        return false;
+    } else {
+        return true;
+    }
+    return false;
+}
+
+
+//void database::connectToDataBase()
+//{
+
+
+//    if(!QFile(DATABASE_NAME).exists()){
+//        this->restoreDataBase();
+//    }
+//    else{
+//        this->openDataBase();
+//    }
+//}
