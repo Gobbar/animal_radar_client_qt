@@ -18,10 +18,18 @@ int main(int argc, char *argv[])
     database database;
     database.connectToDataBase();
 
+
+//    qRegisterMetaType<animal>();
+//    qmlRegisterType<animal>("Custom.Types", 1, 0, "Animal");
+
+
+
+
     // заводим массив
     animals_list animals;
+    animals.set_n(database.getSize("select count(*) from "+QString(TA)+";"));//записываем размер
     animals.set_list(database.getAnimals("select * from "+QString(TA)+";"));//помещаем в него все данные из таблицы в бд))))
-    animals.set_n(database.getSize("select * from "+QString(TA)+";"));//записываем размер
+
     animal a(3,3,3); //тестовый объект
 
 

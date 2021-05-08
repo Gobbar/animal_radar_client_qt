@@ -62,6 +62,7 @@ int database::getSize(QString str){
     QSqlQuery ind(str);
 
     ind.next();
+    qDebug()<<ind.value(0).toInt()<<"a";
     return ind.value(0).toInt();
 }
 
@@ -71,7 +72,7 @@ animal* database::getAnimals(QString str){
     QSqlQuery query(str);
 
 
-    animal* a=new animal[getSize(str)];
+    animal* a=new animal[getSize("select count(*) from animals;")];
 
     int i=0;
     while (query.next()){
@@ -84,26 +85,7 @@ animal* database::getAnimals(QString str){
 }
 
 
-// отправляет данные в бд - на данный момент данный вариант функции не работает из main.qml
-// так как не настроено подключение класса animal
-bool database::setAnimal(animal &a){
-    QSqlQuery query;
-    query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (:long, :lati, :time, :check);");
-    query.bindValue(":long", QString::number(a.get_longitude(),'f', 3));
-    query.bindValue(":lati", QString::number(a.get_latitude(),'f', 3));
-    query.bindValue(":time", QString::number(a.get_time()));
-    query.bindValue(":check", QString::number(a.on_server()));
-    //query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (3,3,3,0)");
-    if(!query.exec()){
-            qDebug() << "error insert into " << TA;
-            qDebug() << query.lastError().text();
-            return false;
-        } else {
-            qDebug()<<a.get_latitude();
-            return true;
-        }
-    return false;
-}
+
 
 // отправляет данные в бд, но на вход получает отдельные поля, а не класс
 // работает в main.qml

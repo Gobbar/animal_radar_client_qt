@@ -13,6 +13,17 @@ Window {
         a.set_time()
         database.setAnimal(a.get_longitude(), a.get_latitude(), a.get_time())
 
+
+        }
+    }
+    Button{
+        text: "s"
+        x: 10
+        y: 20
+        onClicked: {
+        animals.set_n(database.getSize("select count(*) from animals;"))
+        animals.set_list(database.getAnimals("select * from animals;"))
+
         }
     }
 

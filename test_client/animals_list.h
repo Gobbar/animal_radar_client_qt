@@ -33,6 +33,7 @@ public:
 public slots:
     void set_list(animal *_a){
         a = _a;
+        qDebug()<<"sss"<<n;
     }
     void set_n(int _n){
         n=_n;
@@ -43,5 +44,5 @@ public slots:
 signals:
 
 };
-
+Q_DECLARE_METATYPE(animals_list);
 #endif // ANIMALS_LIST_H
