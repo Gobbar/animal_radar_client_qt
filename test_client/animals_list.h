@@ -14,9 +14,9 @@ class animals_list : public QObject
 {
     Q_OBJECT
 private:
-    animal *a;
-    int n;
-    int dt;
+    animal *a; //массив
+    int n; //кол-во элементов массива
+    int dt; //время последнего изменения
 public:
     explicit animals_list(QObject *parent = nullptr);
 //    animals_list(QSqlQuery q){

@@ -47,7 +47,7 @@ private:
 public slots:
 //    QSqlQuery* getRows();
     animal* getAnimals(QString str);
-    int getSize();
+    int getSize(QString str);
     bool setAnimal(animal &a);
     bool setAnimal(double _longitude, double _latitude, int _time, bool _check=0);
 signals:

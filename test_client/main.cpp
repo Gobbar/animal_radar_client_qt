@@ -14,15 +14,15 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
-
+    // подключение бд
     database database;
     database.connectToDataBase();
-    qRegisterMetaType<animal>();
 
+    // заводим массив
     animals_list animals;
-    animals.set_list(database.getAnimals("select * from "+QString(TA)+";"));
-    animals.set_n(database.getSize());
-    animal a(3,3,3,3);
+    animals.set_list(database.getAnimals("select * from "+QString(TA)+";"));//помещаем в него все данные из таблицы в бд))))
+    animals.set_n(database.getSize("select * from "+QString(TA)+";"));//записываем размер
+    animal a(3,3,3); //тестовый объект
 
 
 

@@ -17,7 +17,7 @@ private:
 public:
     explicit animal(QObject *parent = nullptr);
 
-    animal (int _id, double _longitude, double _latitude, int _time, bool _check=0){
+    animal (double _longitude, double _latitude, int _time, bool _check=0, int _id=0){
         id=_id;
         longitude=_longitude;
         latitude=_latitude;
@@ -44,7 +44,7 @@ public slots:
     void set_latitude(int _latitude){latitude = _latitude;}
     void set_time(int _time){time = _time;}
     void set_check(int _check){check = _check;}
-
+    //устанавливает текущее время
     void set_time(){
         time = QDateTime::currentSecsSinceEpoch();
         qDebug()<<time;

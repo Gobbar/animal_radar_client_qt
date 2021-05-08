@@ -57,33 +57,25 @@ void database::closeDataBase()
 
 
 
-//QSqlQuery* database::getRows(){
-
-//    QSqlQuery query("select * from "+QString(TA)+";");
-//    while (query.next()){
-//        qDebug()<<query.value(0).toInt();
-//        qDebug()<<query.result();
-//    }
-
-//    return &query;
-
-//}
-int database::getSize(){
-    QSqlQuery ind("select count(*) from "+QString(TA)+";");
+// возвращает кол-во строк заданного запроса
+int database::getSize(QString str){
+    QSqlQuery ind(str);
 
     ind.next();
     return ind.value(0).toInt();
 }
+
+//возвращает массив объектов класса animal, полученный из заданного запроса к бд
 animal* database::getAnimals(QString str){
 
     QSqlQuery query(str);
 
 
-    animal* a=new animal[getSize()];
+    animal* a=new animal[getSize(str)];
 
     int i=0;
     while (query.next()){
-           animal A(query.value(0).toInt(), query.value(1).toDouble(), query.value(2).toDouble(), query.value(3).toInt(), query.value(4).toBool());
+           animal A(query.value(1).toDouble(), query.value(2).toDouble(), query.value(3).toInt(), query.value(4).toBool(), query.value(0).toInt());
            a[i]=A;
            qDebug()<<A.get_latitude();
            ++i;
@@ -91,6 +83,9 @@ animal* database::getAnimals(QString str){
     return a;
 }
 
+
+// отправляет данные в бд - на данный момент данный вариант функции не работает из main.qml
+// так как не настроено подключение класса animal
 bool database::setAnimal(animal &a){
     QSqlQuery query;
     query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (:long, :lati, :time, :check);");
@@ -110,6 +105,8 @@ bool database::setAnimal(animal &a){
     return false;
 }
 
+// отправляет данные в бд, но на вход получает отдельные поля, а не класс
+// работает в main.qml
 bool database::setAnimal(double _longitude, double _latitude, int _time, bool _check){
     QSqlQuery query;
     query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (:long, :lati, :time, :check);");
