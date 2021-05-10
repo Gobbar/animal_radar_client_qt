@@ -69,7 +69,7 @@ public slots:
         return false;
     }
     bool setAnimal(double _longitude, double _latitude, int _time, bool _check=0);
-    bool setAnimal(QString tableName, QStringList fields);
+    bool setAnimal(QString tableName, QStringList fields, QStringList values);
 signals:
 
 };

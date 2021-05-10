@@ -119,8 +119,8 @@ bool database::setAnimal(double _longitude, double _latitude, int _time, bool _c
         }
     return false;
 }
-//пока еще думаю, как лучше устроить, чтобы можно было передавать только список полей (возможно, со списком значений)
-bool database::setAnimal(QString tableName, QStringList fields){
+//пока еще думаю, как лучше устроить, чтобы можно было передавать только список полей (возможно, со списком значений), чтобы это работало
+bool database::setAnimal(QString tableName, QStringList fields, QStringList values){
     QSqlQuery query;
     QString req="insert into "+tableName+" (";
     QString req1="values (";
@@ -129,10 +129,19 @@ bool database::setAnimal(QString tableName, QStringList fields){
         req1 = req1 + ":"+fields[i]+(i!=fields.size()-1?", ":");");
     }
     req=req+req1;
+    qDebug()<<req;
     query.prepare(req);
     for (int i = 0; i < fields.size(); ++i){
+        query.bindValue(":"+fields[i], values[i]);
     }
-    return true;
+    if(!query.exec()){
+            qDebug() << "error insert into " << tableName;
+            qDebug() << query.lastError().text();
+            return false;
+        } else {
+            return true;
+        }
+    return false;
 }
 //если с бд опять что-то случится
 bool database::createTable(){

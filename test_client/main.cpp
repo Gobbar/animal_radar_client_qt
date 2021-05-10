@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     animals.set_list(database.getAnimals(QString(TA)));//помещаем в него все данные из таблицы в бд))))
     animal a(3,3,3); //тестовый объект
 
-
+    //database.setAnimal("animals", {"latitude, longitude"}, {"3.15", "2.18"});
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("database", &database);
     engine.rootContext()->setContextProperty("animals", &animals);

@@ -14,6 +14,7 @@ Window {
         database.setAnimal(a.get_longitude(), a.get_latitude(), a.get_time())
 
 
+
         }
     }
     Button{
