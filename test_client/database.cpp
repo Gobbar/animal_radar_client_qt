@@ -58,27 +58,39 @@ void database::closeDataBase()
 
 
 // возвращает кол-во строк заданного запроса
+// если поступает на вход только имя таблицы, то выводит все кол-во строк этой таблицы
+// если без count, то парсится строка и приводится к нужному виду
 int database::getSize(QString str){
+    if(!str.contains("select", Qt::CaseInsensitive)){
+        str = "select count(*) from "+str;
+    }
+    else{
+        if (!str.contains("count", Qt::CaseInsensitive)){
+
+            str.replace(6,1," count(");
+            str.replace(str.indexOf("from")-1, 1, ") ");
+        }
+    }
+
     QSqlQuery ind(str);
 
     ind.next();
-    qDebug()<<ind.value(0).toInt()<<"a";
     return ind.value(0).toInt();
 }
 
 //возвращает массив объектов класса animal, полученный из заданного запроса к бд
 animal* database::getAnimals(QString str){
-
+    animal* a=new animal[getSize(str)];
+    if (!str.contains("select", Qt::CaseInsensitive)){
+        str = "select * from "+str;
+    }
     QSqlQuery query(str);
-
-
-    animal* a=new animal[getSize("select count(*) from animals;")];
 
     int i=0;
     while (query.next()){
            animal A(query.value(1).toDouble(), query.value(2).toDouble(), query.value(3).toInt(), query.value(4).toBool(), query.value(0).toInt());
            a[i]=A;
-           qDebug()<<A.get_latitude();
+           qDebug()<<A.get_id();
            ++i;
     }
     return a;
@@ -107,7 +119,21 @@ bool database::setAnimal(double _longitude, double _latitude, int _time, bool _c
         }
     return false;
 }
-
+//пока еще думаю, как лучше устроить, чтобы можно было передавать только список полей (возможно, со списком значений)
+bool database::setAnimal(QString tableName, QStringList fields){
+    QSqlQuery query;
+    QString req="insert into "+tableName+" (";
+    QString req1="values (";
+    for (int i = 0; i < fields.size(); ++i){
+        req = req + fields[i]+(i!=fields.size()-1?", ":") ");
+        req1 = req1 + ":"+fields[i]+(i!=fields.size()-1?", ":");");
+    }
+    req=req+req1;
+    query.prepare(req);
+    for (int i = 0; i < fields.size(); ++i){
+    }
+    return true;
+}
 //если с бд опять что-то случится
 bool database::createTable(){
     QSqlQuery query;

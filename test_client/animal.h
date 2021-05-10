@@ -50,5 +50,5 @@ public slots:
         qDebug()<<time;
     }
 };
-Q_DECLARE_METATYPE(animal);
+//Q_DECLARE_METATYPE(animal);
 #endif // ANIMAL_H

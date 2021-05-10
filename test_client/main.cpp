@@ -27,11 +27,9 @@ int main(int argc, char *argv[])
 
     // заводим массив
     animals_list animals;
-    animals.set_n(database.getSize("select count(*) from "+QString(TA)+";"));//записываем размер
-    animals.set_list(database.getAnimals("select * from "+QString(TA)+";"));//помещаем в него все данные из таблицы в бд))))
-
+    animals.set_n(database.getSize(QString(TA)));//записываем размер
+    animals.set_list(database.getAnimals(QString(TA)));//помещаем в него все данные из таблицы в бд))))
     animal a(3,3,3); //тестовый объект
-
 
 
     QQmlApplicationEngine engine;

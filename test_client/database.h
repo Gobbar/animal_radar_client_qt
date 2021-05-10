@@ -50,7 +50,7 @@ public slots:
     int getSize(QString str);
     // отправляет данные в бд - на данный момент данный вариант функции не работает из main.qml
     // так как не настроено подключение класса animal
-    Q_INVOKABLE bool setAnimal(animal &a){
+    bool setAnimal(animal &a){
         QSqlQuery query;
         query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (:long, :lati, :time, :check);");
         query.bindValue(":long", QString::number(a.get_longitude(),'f', 3));
@@ -69,6 +69,7 @@ public slots:
         return false;
     }
     bool setAnimal(double _longitude, double _latitude, int _time, bool _check=0);
+    bool setAnimal(QString tableName, QStringList fields);
 signals:
 
 };

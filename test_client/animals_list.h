@@ -44,5 +44,5 @@ public slots:
 signals:
 
 };
-Q_DECLARE_METATYPE(animals_list);
+//Q_DECLARE_METATYPE(animals_list);
 #endif // ANIMALS_LIST_H
