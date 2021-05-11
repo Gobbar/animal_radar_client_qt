@@ -17,6 +17,7 @@
 #define DATABASE_HOSTNAME   "test"
 #define DATABASE_NAME       "test.db"
 
+#define sys          "sys_values"
 #define TA           "animals"
 #define TA_id        "id"
 #define TA_longitude "longitude"

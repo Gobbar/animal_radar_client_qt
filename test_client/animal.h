@@ -18,8 +18,8 @@ private:
 public:
     explicit animal(QObject *parent = nullptr);
 
-    animal (double _longitude, double _latitude, int _time, bool _check=0, QString _id=0){
-        if (_id == 0) {
+    animal (double _longitude, double _latitude, int _time, bool _check=0, QString _id=""){
+        if (_id == "") {
             id = QUuid::createUuid().toString().mid(1, 36);
         }
         else {
@@ -45,7 +45,7 @@ public slots:
     int get_time(){return time;}
     bool on_server(){return check;}
 
-    void set_id(int _id){id = _id;}
+    void set_id(QString _id){id = _id;}
     void set_longitude(double _longitude){longitude = _longitude;}
     void set_latitude(int _latitude){latitude = _latitude;}
     void set_time(int _time){time = _time;}

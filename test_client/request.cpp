@@ -42,6 +42,7 @@ void Request::WriteData(QNetworkReply *reply)
         (*database).setAnimal(record);
 
     });
+    last = str;
 }
 
 void Request::ServerAnswer(QNetworkReply *reply)
@@ -69,4 +70,9 @@ void Request::SendData(animals_list &list) {
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(ServerAnswer(QNetworkReply*)));
     connect(manager, SIGNAL(finished(QNetworkReply*)), manager, SLOT(deleteLater()));
     manager->post(request, reqString);
+}
+
+void Request::collectData(QString *res) {
+    GetData(15, 15, 0);
+    //return last;
 }

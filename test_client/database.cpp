@@ -12,10 +12,10 @@ database::~database(){
 }
 void database::connectToDataBase(){
     if(!QFile(DATABASE_NAME).exists()){
-            QFile::copy(":/" DATABASE_NAME , DATABASE_NAME);
-            QFile::setPermissions(DATABASE_NAME, QFile::WriteOwner | QFile::ReadOwner);
-        }
-        this->openDataBase();
+        QFile::copy(":/" DATABASE_NAME , DATABASE_NAME);
+        QFile::setPermissions(DATABASE_NAME, QFile::WriteOwner | QFile::ReadOwner);
+    }
+    this->openDataBase();
 }
 
 bool database::restoreDataBase(){
@@ -155,10 +155,7 @@ bool database::createTable(){
         qDebug() << "DataBase: error of create " << TA;
         qDebug() << query.lastError().text();
         return false;
-    } else {
-        return true;
     }
-    return false;
 }
 
 

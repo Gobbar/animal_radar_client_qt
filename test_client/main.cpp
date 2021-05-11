@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 //    qRegisterMetaType<animal>();
 //    qmlRegisterType<animal>("Custom.Types", 1, 0, "Animal");
 
-    Request request("http://localhost:5000/", &database);
+    Request request("http://127.0.0.1:5000/", &database);
 
     // заводим массив
     animals_list animals;

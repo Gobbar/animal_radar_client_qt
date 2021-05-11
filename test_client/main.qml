@@ -8,24 +8,92 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
+    //width: 800
+    //height: 800
+    //visible: true
+    //title: qsTr("Curse")
+
+    Rectangle{
+        anchors.fill:parent
+        color: "aqua"
+
+    }
+
+    //Plugin {
+    //        id: mapPlugin
+    //        name: "osm"
+    //    }
+
+    //Map {
+    //        id: myMap
+    //        height: 400
+    //        width: 400
+    //
+    //        anchors.centerIn: parent
+    //        plugin: mapPlugin
+    //        center: QtPositioning.coordinate(64.52, 40.52)
+    //        zoomLevel: 12
+    //        copyrightsVisible: false
+    //
+    //        //щипок на карте (изменение масштаба)
+    //        PinchArea{
+    //            property double oldZoomLevel
+    //            anchors.fill: parent
+    //
+    //            function calcZoomDel(z,p){
+    //                return z + Math.log(p)/Math.log(2)
+    //            }
+    //            onPinchStarted: {
+    //                oldZoomLevel = myMap.zoomLevel
+    //            }
+    //            onPinchUpdated: {
+    //                myMap.zoomLevel = calcZoomDel(oldZoomLevel, pinch.scale)
+    //            }
+    //            onPinchFinished: {
+    //                myMap.zoomLevel = calcZoomDel(oldZoomLevel, pinch.scale)
+    //            }
+    //        }
+    //
+    //}
     Button{
+        x:10
+        y:100
+        text:qsTr("Олень!")
         onClicked: {
-        a.set_time()
-        database.setAnimal(a.get_longitude(), a.get_latitude(), a.get_time())
-
-
+            //lab1.text = "121";
+            //var res = "";
+            request.collectData();
+            //lab1.text = res;
 
         }
     }
-    Button{
-        text: "s"
-        x: 10
-        y: 20
-        onClicked: {
-        animals.set_n(database.getSize("select count(*) from animals;"))
-        animals.set_list(database.getAnimals("select * from animals;"))
-
-        }
+    //Button{
+    //    x:10
+    //    y:200
+    //    text:qsTr("Обновить данные")
+    //    onClicked: {
+    //        //zad.Cv(2);
+    //    }
+    //}
+    //Button{
+    //    x:10
+    //    y:300
+    //    text:qsTr("B3")
+    //    onClicked: {
+    //       //zad.Cv(3);
+    //    }
+    //}
+    Label{
+        id:lab1
+        x:10
+        y:500
+        width: 200
+        height: 100
+        text:qsTr("")
     }
+    //Connections{
+    //    target: zad
+    //    onVC: lab1.text = s;
+    //}
 
 }
