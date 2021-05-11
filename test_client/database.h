@@ -49,28 +49,10 @@ public slots:
 //    QSqlQuery* getRows();
     animal* getAnimals(QString str);
     int getSize(QString str);
-    // отправляет данные в бд - на данный момент данный вариант функции не работает из main.qml
-    // так как не настроено подключение класса animal
-    bool setAnimal(animal &a){
-        QSqlQuery query;
-        query.prepare("insert into animals (id, longitude, latitude, animal_date_time, on_server) values (:id, :long, :lati, :time, :check);");
-        query.bindValue(":long", QString::number(a.get_longitude(),'f', 3));
-        query.bindValue(":lati", QString::number(a.get_latitude(),'f', 3));
-        query.bindValue(":time", QString::number(a.get_time()));
-        query.bindValue(":check", QString::number(a.on_server()));
-        query.bindValue(":id", a.get_id());
-        //query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (3,3,3,0)");
-        if(!query.exec()){
-                qDebug() << "error insert into " << TA;
-                qDebug() << query.lastError().text();
-                return false;
-            } else {
-                qDebug()<<a.get_latitude();
-                return true;
-            }
-        return false;
-    }
-    bool setAnimal(double _longitude, double _latitude, int _time, bool _check=0);
+        // отправляет данные в бд - на данный момент данный вариант функции не работает из main.qml
+        // так как не настроено подключение класса animal
+    bool setAnimal(animal &a);
+    bool setAnimal(QString _id, double _longitude, double _latitude, int _time, bool _check=0);
     bool setAnimal(QString tableName, QStringList fields, QStringList values);
 signals:
 

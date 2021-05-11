@@ -12,10 +12,14 @@ database::~database(){
 }
 void database::connectToDataBase(){
     if(!QFile(DATABASE_NAME).exists()){
-        QFile::copy(":/" DATABASE_NAME , DATABASE_NAME);
-        QFile::setPermissions(DATABASE_NAME, QFile::WriteOwner | QFile::ReadOwner);
+//            QFile::copy(":/" DATABASE_NAME , DATABASE_NAME);
+//            QFile::setPermissions(DATABASE_NAME, QFile::WriteOwner | QFile::ReadOwner);
+       this->restoreDataBase();
     }
-    this->openDataBase();
+    else{
+        this->openDataBase();
+    }
+
 }
 
 bool database::restoreDataBase(){
@@ -98,12 +102,31 @@ animal* database::getAnimals(QString str){
 
 
 
-
+bool database::setAnimal(animal &a){
+    QSqlQuery query;
+    query.prepare("insert into animals (id, longitude, latitude, animal_date_time, on_server) values (:id, :long, :lati, :time, :check);");
+    query.bindValue(":long", QString::number(a.get_longitude(),'f', 3));
+    query.bindValue(":lati", QString::number(a.get_latitude(),'f', 3));
+    query.bindValue(":time", QString::number(a.get_time()));
+    query.bindValue(":check", QString::number(a.on_server()));
+    query.bindValue(":id", a.get_id());
+    //query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (3,3,3,0)");
+    if(!query.exec()){
+            qDebug() << "error insert into " << TA;
+            qDebug() << query.lastError().text();
+            return false;
+        } else {
+            qDebug()<<a.get_latitude();
+            return true;
+        }
+    return false;
+}
 // отправляет данные в бд, но на вход получает отдельные поля, а не класс
 // работает в main.qml
-bool database::setAnimal(double _longitude, double _latitude, int _time, bool _check){
+bool database::setAnimal(QString _id, double _longitude, double _latitude, int _time, bool _check){
     QSqlQuery query;
-    query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (:long, :lati, :time, :check);");
+    query.prepare("insert into animals (id, longitude, latitude, animal_date_time, on_server) values (:id, :long, :lati, :time, :check);");
+    query.bindValue(":id", _id);
     query.bindValue(":long", QString::number(_longitude,'f', 3));
     query.bindValue(":lati", QString::number(_latitude,'f', 3));
     query.bindValue(":time", QString::number(_time));
@@ -148,14 +171,24 @@ bool database::createTable(){
     QSqlQuery query;
     if(!query.exec("CREATE TABLE " TA " ("
                         "id BLOB PRIMARY KEY, "
-                        TA_longitude "double not null, "
-                        TA_latitude "double not null, "
-                        TA_time "integer not null, "
-                        TA_check "integer not null)")){
+                        TA_longitude " double not null, "
+                        TA_latitude " double not null, "
+                        TA_time " integer not null, "
+                        TA_check " integer not null)")){
         qDebug() << "DataBase: error of create " << TA;
         qDebug() << query.lastError().text();
         return false;
+    } else {
+        if(!query.exec("CREATE TABLE sys_values (setting text not null primary key,"
+                       "value blob,"
+                       "type text)")){
+            qDebug() << "DataBase: error of create sys_values";
+            qDebug() << query.lastError().text();
+            return false;
+        }
+        return true;
     }
+    return false;
 }
 
 
