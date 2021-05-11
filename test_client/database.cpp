@@ -88,7 +88,7 @@ animal* database::getAnimals(QString str){
 
     int i=0;
     while (query.next()){
-           animal A(query.value(1).toDouble(), query.value(2).toDouble(), query.value(3).toInt(), query.value(4).toBool(), query.value(0).toInt());
+           animal A(query.value(1).toDouble(), query.value(2).toDouble(), query.value(3).toInt(), query.value(4).toBool(), query.value(0).toString());
            a[i]=A;
            qDebug()<<A.get_id();
            ++i;
@@ -147,7 +147,7 @@ bool database::setAnimal(QString tableName, QStringList fields, QStringList valu
 bool database::createTable(){
     QSqlQuery query;
     if(!query.exec("CREATE TABLE " TA " ("
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        "id BLOB PRIMARY KEY, "
                         TA_longitude "double not null, "
                         TA_latitude "double not null, "
                         TA_time "integer not null, "

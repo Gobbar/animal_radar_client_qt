@@ -10,7 +10,8 @@ SOURCES += \
         animal.cpp \
         animals_list.cpp \
         database.cpp \
-        main.cpp
+        main.cpp \
+        request.cpp
 
 RESOURCES += qml.qrc
 
@@ -28,6 +29,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     animal.h \
     animals_list.h \
-    database.h
+    database.h \
+    request.h
 
 DISTFILES +=

@@ -52,11 +52,12 @@ public slots:
     // так как не настроено подключение класса animal
     bool setAnimal(animal &a){
         QSqlQuery query;
-        query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (:long, :lati, :time, :check);");
+        query.prepare("insert into animals (id, longitude, latitude, animal_date_time, on_server) values (:id, :long, :lati, :time, :check);");
         query.bindValue(":long", QString::number(a.get_longitude(),'f', 3));
         query.bindValue(":lati", QString::number(a.get_latitude(),'f', 3));
         query.bindValue(":time", QString::number(a.get_time()));
         query.bindValue(":check", QString::number(a.on_server()));
+        query.bindValue(":id", a.get_id());
         //query.prepare("insert into animals (longitude, latitude, animal_date_time, on_server) values (3,3,3,0)");
         if(!query.exec()){
                 qDebug() << "error insert into " << TA;

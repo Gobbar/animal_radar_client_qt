@@ -29,17 +29,23 @@ public:
 //               qDebug()<<query.value(0).toInt();
 //           }
 //    }
+    animal *operator[](int index) {
+        return a + index;
+    }
 
 public slots:
     void set_list(animal *_a){
         a = _a;
-        qDebug()<<"sss"<<n;
+        //qDebug()<<"sss"<<n;
     }
     void set_n(int _n){
         n=_n;
     }
     void set_dt(int _dt){
         dt=_dt;
+    }
+    int get_n() {
+        return n;
     }
 signals:
 

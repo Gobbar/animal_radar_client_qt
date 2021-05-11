@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "request.h"
 #include "database.h"
 #include "animal.h"
 #include "animals_list.h"
@@ -22,8 +23,7 @@ int main(int argc, char *argv[])
 //    qRegisterMetaType<animal>();
 //    qmlRegisterType<animal>("Custom.Types", 1, 0, "Animal");
 
-
-
+    Request request("http://localhost:5000/", &database);
 
     // заводим массив
     animals_list animals;
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("database", &database);
     engine.rootContext()->setContextProperty("animals", &animals);
+    engine.rootContext()->setContextProperty("request", &request);
     engine.rootContext()->setContextProperty("a", &a);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

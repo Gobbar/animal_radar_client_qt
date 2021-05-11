@@ -3,12 +3,13 @@
 
 #include <QObject>
 #include <QDateTime>
+#include <QUuid>
 
 class animal : public QObject
 {
     Q_OBJECT
 private:
-    int id;
+    QString id;
     double longitude;
     double latitude;
     int time;
@@ -17,8 +18,13 @@ private:
 public:
     explicit animal(QObject *parent = nullptr);
 
-    animal (double _longitude, double _latitude, int _time, bool _check=0, int _id=0){
-        id=_id;
+    animal (double _longitude, double _latitude, int _time, bool _check=0, QString _id=0){
+        if (_id == 0) {
+            id = QUuid::createUuid().toString().mid(1, 36);
+        }
+        else {
+            id=_id;
+        }
         longitude=_longitude;
         latitude=_latitude;
         time = _time;
@@ -33,7 +39,7 @@ public:
     }
 
 public slots:
-    int get_id(){return id;}
+    QString get_id(){return id;}
     double get_longitude(){return longitude;}
     double get_latitude(){return latitude;}
     int get_time(){return time;}
@@ -47,7 +53,7 @@ public slots:
     //устанавливает текущее время
     void set_time(){
         time = QDateTime::currentSecsSinceEpoch();
-        qDebug()<<time;
+        //qDebug()<<time;
     }
 };
 //Q_DECLARE_METATYPE(animal);
