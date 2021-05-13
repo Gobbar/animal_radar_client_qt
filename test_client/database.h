@@ -22,7 +22,7 @@
 #define TA_id        "id"
 #define TA_longitude "longitude"
 #define TA_latitude  "latitude"
-#define TA_time      "animals_date_time"
+#define TA_time      "animal_date_time"
 #define TA_check     "on_server"
 
 
@@ -49,11 +49,15 @@ public slots:
 //    QSqlQuery* getRows();
     animal* getAnimals(QString str);
     int getSize(QString str);
+    void test(){
+        qDebug()<<"AAA";
+    }
         // отправляет данные в бд - на данный момент данный вариант функции не работает из main.qml
         // так как не настроено подключение класса animal
     bool setAnimal(animal &a);
     bool setAnimal(QString _id, double _longitude, double _latitude, int _time, bool _check=0);
     bool setAnimal(QString tableName, QStringList fields, QStringList values);
+    bool checkAnimal();
 signals:
 
 };

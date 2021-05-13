@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QTimer>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -23,14 +24,19 @@ public:
     void SendData(animals_list &list);
     void GetData(int longitude, int latitude, uint time_stamp);
     QString last = "";
+
 private:
     QString url;
     database *database;
+
 public slots:
-    void collectData(QString *res);
+    void collectData();
     void WriteData(QNetworkReply *reply);
     void ServerAnswer(QNetworkReply *reply);
-//signals:
+    void test();
+
+signals:
+    void openDialogWindow();
 //    void readyRead();
 //    void finished();
 };

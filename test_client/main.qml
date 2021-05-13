@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
-
+import QtQuick.Layouts 1.1
 Window {
     width: 640
     height: 480
@@ -17,6 +17,14 @@ Window {
         anchors.fill:parent
         color: "aqua"
 
+
+
+    }
+    Dialog{
+        id: dialogwindow
+        Button{
+            onClicked: dialogwindow.close()
+        }
     }
 
     //Plugin {
@@ -55,13 +63,24 @@ Window {
     //        }
     //
     //}
+
+    Connections{
+        target: request
+        onOpenDialogWindow:{
+            dialogwindow.open()
+    }
+    }
     Button{
         x:10
         y:100
         text:qsTr("Олень!")
+
+
         onClicked: {
             //lab1.text = "121";
             //var res = "";
+            //request.collectData();
+
             request.collectData();
             //lab1.text = res;
 

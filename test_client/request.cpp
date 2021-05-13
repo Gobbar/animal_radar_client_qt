@@ -4,6 +4,9 @@ Request::Request(QString url, class database *database)
 {
     this->url = url;
     this->database = database;
+//    QTimer *timer = new QTimer(this);
+//    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(GetData(40.56, 64.52)));
+//    timer->start(1000);
 }
 
 void Request::GetData(int longitude, int latitude, uint time_stamp)
@@ -72,7 +75,18 @@ void Request::SendData(animals_list &list) {
     manager->post(request, reqString);
 }
 
-void Request::collectData(QString *res) {
-    GetData(15, 15, 0);
-    //return last;
+void Request::collectData() {
+    animal a(40.56, 64.52, 0);
+    a.set_time();
+    animal *an = new animal[1];
+    an[0]=a;
+    animals_list animals;
+    animals.set_list(an);
+    animals.set_n(1);
+    SendData(animals);
+}
+
+void Request::test(){
+    qDebug()<<"AAAAAAAaa";
+
 }

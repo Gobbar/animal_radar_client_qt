@@ -1,5 +1,7 @@
 #include "database.h"
 #include <QStandardPaths>
+#include <QTimer>
+#include <QDateTime>
 
 
 database::database(QObject *parent) : QObject(parent)
@@ -11,6 +13,9 @@ database::~database(){
 
 }
 void database::connectToDataBase(){
+//    QTimer *timer = new QTimer(this);
+//    QObject::connect(timer, SIGNAL(timeout()), this, SLOT());
+//    timer->start(1000);
     if(!QFile(DATABASE_NAME).exists()){
 //            QFile::copy(":/" DATABASE_NAME , DATABASE_NAME);
 //            QFile::setPermissions(DATABASE_NAME, QFile::WriteOwner | QFile::ReadOwner);
@@ -165,6 +170,18 @@ bool database::setAnimal(QString tableName, QStringList fields, QStringList valu
             return true;
         }
     return false;
+}
+
+bool database::checkAnimal(){
+    QString str = "select count(*) from animals where abs(animal_date_time-";
+    str=str+QString::number(QDateTime::currentSecsSinceEpoch());
+    str=str+")<120;";
+    QSqlQuery query(str);
+    query.next();
+    qDebug()<<query.value(0).toInt();
+    return query.value(0).toInt();
+
+
 }
 //если с бд опять что-то случится
 bool database::createTable(){
